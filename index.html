@@ -1,0 +1,63 @@
+
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+<input class="form-control" type="text" placeholder="Nhập link 1688/taobao" id="txtInput">
+<button type="button" class="btn btn-primary" id="btnSubmit" >Get Link</button>
+
+
+
+<script type="text/javascript">
+	var $btnSubmit = $("#btnSubmit");
+	var $input = $("#txtInput");
+	$(document).ready(function () {
+		$input.val("https://item.taobao.com/item.htm?id=");
+	});
+
+	$btnSubmit.click(function () {
+		var kuiUrl = "https://api.su.gobizdev.com/public/kui/shorten/generate";
+
+		console.log($input.val());
+		var data = { rawUrl: $input.val() };
+		console.log(data);
+
+		var dd = JSON.stringify(data);
+		console.log(dd);
+
+		$.ajax({
+			type: "POST",
+			url: kuiUrl,
+			data: dd,
+			processData: false,
+			contentType: "application/json; charset=UTF-8",
+			success: success,
+			dataType: "json",
+		});
+	});
+
+	function success(data) {
+		if (data != null && data.url != null) {
+			if (data.couponUrl != null) {
+				window.open(data.couponUrl);
+			} else {
+				window.open(data.url);
+			}
+		} else {
+			window.open($input.val());
+		}
+	}
+
+</script>
+<div>
+</div>
+</html>
